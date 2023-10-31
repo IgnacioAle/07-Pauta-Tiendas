@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Gestión de Personal</title>
+    <link rel="shortcut icon" href="image/Logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/body.css">
+    <style>
+        body {
+            background-image: url('./image/img1.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Ingresar Operador</h1>
+
+        <label for="nombre">Operador:</label>
+        <select id="nombre">
+            <option value="">Seleccionar nombre</option>
+        </select>
+
+        <label for="tienda">Tienda:</label>
+        <select id="tienda">
+            <option value="">Seleccionar tienda</option>
+        </select>
+
+        <button class="btn" onclick="agregarPersona()">Agregar</button>
+
+        <table id="tabla">
+            <tr>
+                <th>Operador</th>
+                <th>Tienda Asignada</th>
+                <th>Acciones</th>
+            </tr>
+        </table>
+
+        <button class="btn" onclick="borrarTodos()">Borrar Todos</button>
+    </div>
+
+    <script>
+        // Verificar si hay datos almacenados en localStorage
+        var personas = JSON.parse(localStorage.getItem("personas")) || [];
+
+        // Datos de ejemplo desde el archivo JSON
+        var datosJSON = {
+            "nombres": [
+                "Alanis Casas",
+                "Alexandra Parada",
+                "Ana Rancuzzi",
+                "Byron Aguilera",
+                "Carlos Orellana",
+                "Carlos Rubio",
+                "Carlos Urra",
+                "Carolina Lhar",
+                "Cecilia Osses",
+                "Claudia Jara",
+                "Claudia Ravello",
+                "Cristian Cid",
+                "Cynthia Quijon",
+                "Daniel Sandoval",
+                "Edison Guapacha",
+                "Erick Aguilar",
+                "Gabriel Garate",
+                "Gabriel Ojeda",
+                "Giovanna Yovio",
+                "Gonzalo Orellana",
+                "Jaqueline Huaquimpan",
+                "Jose Cancino",
+                "Jose Ortiz",
+                "Jose Valdebenito",
+                "Krishna Ayala",
+                "Macarena Echeverry",
+                "Mailen Lincolao",
+                "Manuel Castillo",
+                "Manuel Oyanedel",
+                "Maricela Lavado",
+                "Matias Lizama",
+                "Mauricio Martinez",
+                "Miguel Faundez",
+                "Misael Agusto",
+                "Nestor Pino",
+                "Oscar Montenegro",
+                "Pamela Morales",
+                "Pamela Ortiz",
+                "Paulina Alarcon",
+                "Paulo Piñero",
+                "Priscilla Huenchul",
+                "Ricardo Torres",
+                "Sebastian Carrasco",
+                "Sebastian Quiñones",
+                "Susana Morales",
+                "Valentina Cortez",
+                "Victor Figueroa",
+                "Willander Hernandez",
+                "Yasna Fernandez"
+
+                // Agrega más nombres aquí
+            ],
+            "tiendas": [
+                "Ahumada 165 - 366 - 25",
+                "Alto las Condes",
+                "Antofagasta",
+                "Arauco Maipu",
+                "Arica - Copiapo",
+                "Calama - Iquique",
+                "Concepcion",
+                "Costanera Center",
+                "El Trébol",
+                "Independencia - Tobalaba",
+                "La Calera - Ovalle",
+                "La Dehesa - Los Dominicos",
+                "La Serena - Quilpue",
+                "Los Angeles - Osorno",
+                "Parque Arauco",
+                "Plaza Egaña - Lyon",
+                "Plaza Norte",
+                "Plaza Oeste",
+                "Plaza Vespucio",
+                "Puente 530 - Sybilla",
+                "Puerto Montt - Castro",
+                "Punta Arenas - Chillan",
+                "Rancagua - San Fernando",
+                "San Bernardo - Expo Puente Alto",
+                "Valdivia - Curico",
+                "Valparaiso - Melipilla",
+                "Viña del Mar - San Felipe"
+                // Agrega más tiendas aquí
+            ]
+        };
+
+        // Cargar nombres y tiendas desde los datos del archivo JSON
+        cargarNombres(datosJSON.nombres);
+        cargarTiendas(datosJSON.tiendas);
+
+        // Función para cargar nombres en el select
+        function cargarNombres(nombres) {
+            var select = document.getElementById("nombre");
+            nombres.forEach(function (nombre) {
+                var option = document.createElement("option");
+                option.value = nombre;
+                option.text = nombre;
+                select.appendChild(option);
+            });
+        }
+
+        // Función para cargar tiendas en el select
+        function cargarTiendas(tiendas) {
+            var select = document.getElementById("tienda");
+            tiendas.forEach(function (tienda) {
+                var option = document.createElement("option");
+                option.value = tienda;
+                option.text = tienda;
+                select.appendChild(option);
+            });
+        }
+
+        // Función para agregar una persona a la tabla
+        function agregarPersona() {
+            var nombre = document.getElementById("nombre").value;
+            var tienda = document.getElementById("tienda").value;
+
+            if (nombre !== "" && tienda !== "") {
+                personas.push({ nombre: nombre, tienda: tienda });
+
+                actualizarTabla();
+
+                // Guardar los datos en localStorage
+                localStorage.setItem("personas", JSON.stringify(personas));
+
+                // Reiniciar las opciones seleccionadas
+                document.getElementById("nombre").value = "";
+                document.getElementById("tienda").value = "";
+            }
+        }
+
+        // Función para actualizar la tabla con los datos de las personas
+        function actualizarTabla() {
+            var tabla = document.getElementById("tabla");
+
+            // Limpiar la tabla
+            while (tabla.rows.length > 1) {
+                tabla.deleteRow(1);
+            }
+
+            // Agregar los datos de las personas a la tabla
+            for (var i = 0; i < personas.length; i++) {
+                var fila = tabla.insertRow();
+
+                var celdaNombre = fila.insertCell();
+                celdaNombre.innerHTML = personas[i].nombre;
+
+                var celdaTienda = fila.insertCell();
+                celdaTienda.innerHTML = personas[i].tienda;
+
+                var celdaAcciones = fila.insertCell();
+                celdaAcciones.innerHTML = "<button onclick='borrarPersona(" + i + ")'>Borrar</button>";
+            }
+        }
+
+        // Función para borrar una persona de la tabla
+        function borrarPersona(index) {
+            personas.splice(index, 1);
+            actualizarTabla();
+
+            // Guardar los datos actualizados en localStorage
+            localStorage.setItem("personas", JSON.stringify(personas));
+        }
+
+        // Función para borrar todas las personas de la tabla
+        function borrarTodos() {
+            personas = [];
+            actualizarTabla();
+
+            // Borrar los datos de localStorage
+            localStorage.removeItem("personas");
+        }
+
+        // Cargar la tabla con los datos al cargar la página
+        actualizarTabla();
+    </script>
+</body>
+<footer>
+    <p>Desarrollado por &copy; Ignacio Alejandro Aracena Aracena</p>
+    <p>Correo: iachavez@falabella.cl</p>
+</footer>
+</html>
