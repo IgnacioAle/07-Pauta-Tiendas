@@ -6,30 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesion</title>
     <link rel="shortcut icon" href="image/Logo.png" type="image/x-icon">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-image: url('../image/wallpaper.gif');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles-login.css">
 </head>
 
 <body>
     <div id="loginForm">
-        <img src="image/Logo.png" alt="Logo de Falabella">
+        <img class="avatar" src="image/Logo.png" alt="Logo de Falabella">
         <h2>Iniciar Sesión</h2>
         <form id="formulario" onsubmit="return validarForm()">
+            <label for="">Nombre de usuario:</label>
             <input type="text" id="usuario" placeholder="Usuario" required><br><br>
+
+            <label for="">Contraseña:</label>
             <input type="password" id="contrasena" placeholder="Contraseña" required><br><br>
             <button type="submit">Iniciar Sesión</button>
         </form>
     </div>
-
+    
     <script src="js/app-login.js"></script>
 </body>
+<footer>
+    <p>Desarrollado por &copy; Ignacio Alejandro Aracena Aracena</p>
+    <p>Correo: iachavez@falabella.cl</p>
+</footer>
+
 
 </html>
